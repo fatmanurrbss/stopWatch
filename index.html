@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sayaç</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body{
+            display: flex;
+            width: 100%;
+            height: 100vh;
+            background-color: black;
+        }
+       
+        .cont{
+            color:white;
+            display: flex;
+            position: absolute;
+            text-align: center;
+            justify-content: center;
+            background-color: black;
+            top: 35%;
+            left: 50%;
+            width: 13%;
+            height: 43vh;
+            font-size: 40px;
+            min-width: 300px;
+            line-height: 43vh;
+            border-radius: 50%;
+            transform: translate(-50%,-50%);
+            box-shadow: 0 0 30px rgb(39, 59, 124);
+        }
+      
+        .butonlar{
+          display: flex;
+          position: absolute;
+          left: 50%;
+          top: 70%; 
+          transform: translate(-50%,-50%);
+          
+        }
+        .button{
+            width: 70px;
+            height: 70px;
+            margin: 10px;
+            border-radius: 70%;
+            outline-style: none;
+            font-weight: 700;
+            color: white;
+            background-color: black;
+            border: 1px solid  rgb(39, 59, 124);
+            box-shadow: 0 0 10px rgb(39, 59, 124);
+        }
+       
+        .bslt:hover {
+            box-shadow: 0 0 10px rgb(0, 247, 21);
+            border: 1px solid rgb(52, 247, 13) ;
+            background-color:  rgb(52, 247, 13);
+            color: white;
+        }
+        .sıfırla:hover{
+            box-shadow: 0 0 10px red;
+            border: 1px solid red ;
+            background-color: red;
+            color: white;
+        }
+         .turr:hover{
+            box-shadow: 0 0 10px rgb(5, 229, 236);
+             border: 1px solid rgb(5, 229, 236);
+            background-color: rgb(5, 229, 236);
+            color: white;
+        }
+        .trsftrl:hover{
+             box-shadow: 0 0 10px orangered;
+             border: 1px solid orangered;
+            background-color: orangered;
+            color: white;
+        }
+        
+        .turlar{
+            display: flex-direction;
+            list-style: none;
+            color: white;
+            width: 250px;
+            height: 190px;
+            position:absolute;
+            margin-top: 30px;
+            top: 93%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+        }
+        .sure{
+            display: inline-block;
+            margin-left: 25px;
+        }
+        .tur-tab{
+            display: inline-block;
+            width:100%;
+            padding:10px;
+            text-align:center;
+            border:1px solid rgb(39, 59, 124);
+            border-radius: 50px;
+            margin-bottom:15px ;
+        }
+      
+    </style>
+</head>
+<body>
+    <div class="cont"> 00 : 00 : 00</div>
+
+    <div class="butonlar">
+        <button class="button bslt" onclick="piley()" onmouseover="btn_basla()" onmouseout="eskihal()">Başlat</button>
+        <button class="button sıfırla" onclick="sifirla()"  onmouseover="btn_sıfırla()" onmouseout="eskihal()">Sıfırla</button>
+        <button class="button turr" onclick="tur_btn()"  onmouseover="btn_tur()" onmouseout="eskihal()">Tur</button>
+        <button class="button trsftrl" onclick="tr_tmzle()" onmouseover="btn_tmzle()" onmouseout="eskihal()">Tur Sırıfla</button> 
+    </div>
+    <ul class="turlar"></ul>
+    <script>
+        const taban =  document.querySelector('.cont');
+        const tur_ulas = document.querySelector(".turlar");
+ 
+       const btn_basla = () => {
+           taban.style.boxShadow ="0 0 20px rgb(0, 247, 21)";
+       }
+       const btn_sıfırla = () => {
+            taban.style.boxShadow = "0 0 20px red";
+        }
+        const btn_tur  = () => {
+            taban.style.boxShadow = "0 0 20px rgb(5, 229, 236)";
+        }
+        const btn_tmzle = () => {
+            taban.style.boxShadow = "0 0 20px orangered";
+        }
+       const eskihal = () => {
+            taban.style.boxShadow = "0 0 10px rgb(39, 59, 124)";
+        }
+       
+        let ms = 0, s = 0, m = 0;
+        let timer;
+        let itemd = 0;
+        let zanmlyc_kısa = () => {
+            return (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s) + ":" + (ms < 10 ? "0" + ms : ms);
+        }
+        let fls_kısa = () => {
+            clearInterval(timer);
+                timer = false;
+        }
+        const run = () => {
+            taban.textContent =  taban.textContent= zanmlyc_kısa();
+            ms++;
+            if (ms == 100) {
+                ms = 0;
+                s++;
+            }
+            if (s == 60) {
+                s = 0;
+                m++;
+            }
+        }
+        
+        const b_bttn = document.querySelector(".bslt");
+        let isPlay = false
+        const piley = () =>{
+            if(!isPlay){
+                b_bttn.innerHTML='Durdur';
+                isPlay = true;
+                if(!timer){
+                    timer = setInterval(run, 10);
+                }
+               
+            }else{
+                b_bttn.innerHTML="Başlat";
+                isPlay = false;
+                fls_kısa();
+            }
+        }
+      
+        const sifirla = () =>{
+            fls_kısa();
+            ms = 0;
+            s = 0;
+            m = 0;
+            taban.textContent = taban.textContent = zanmlyc_kısa();
+            b_bttn.innerHTML = "Başlat";
+            isPlay = false;
+            tur_ulas.innerHTML = "";
+            itemd = 0;
+        }
+       
+        
+        const tur_btn = () =>{
+            if(timer){
+                const li = document.createElement("li");
+                const nm = document.createElement("span");
+                const tm = document.createElement("span");
+
+                li.setAttribute("class", "tur-tab");
+                nm.setAttribute("class", "num");
+                tm.setAttribute("class", "sure");
+
+                nm.innerHTML = "#" + " " + ` ${++itemd}`;
+                tm.innerHTML = zanmlyc_kısa();
+                li.append(nm, tm);
+                tur_ulas.append(li);
+            }
+        }
+       
+        const tr_tmzle = () =>{
+            tur_ulas.innerHTML = "";
+            itemd = 0;
+        }
+
+
+    </script>
+</body>
+</html>
